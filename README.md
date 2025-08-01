@@ -8,3 +8,6 @@ En este proyecto se desarrolla una aplicacion simple en donde se da un mensaje d
 - Clona el repositorio.
 - En Android Studio, abre el proyecto.
 - En el emulador o un dispositivo android conectado, correr el programa. 
+
+## Link al video del funcionamiento 
+https://youtu.be/3skuwd3Siwg

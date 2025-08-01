@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -27,7 +28,12 @@ import androidx.compose.ui.unit.sp
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import kotlinx.coroutines.delay
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import android.widget.Toast
+import androidx.compose.material3.ButtonDefaults
+
 
 
 class MainActivity : ComponentActivity() {
@@ -70,26 +76,39 @@ fun SplashScreen(modifier: Modifier = Modifier) {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class) // Opt-in here as well if Scaffold uses experimental APIs
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainContentScreen() {
+    val context = LocalContext.current // Get the current context for Toast
+
     Scaffold(
-        topBar = { MyHeader() } // Add your header here
+        topBar = { MyHeader() }
     ) { innerPadding ->
-        // Your main screen content goes here
         Column(
             modifier = Modifier
-                .padding(innerPadding) // Apply padding from the Scaffold
-                .fillMaxSize(),
+                .padding(innerPadding)
+                .fillMaxSize()
+                .padding(16.dp), // Add some padding around the content
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Center // Center content vertically too
         ) {
             Text(
-                text ="Bienvenido a DragonStats, la app en donde podrás ver los resultados de la DragonsLeague",
+                text ="Bienvenido a DragonStats, la app en donde podrás ver los resultados de la DragonsLeague, presiona el botón para continuar.",
                 fontSize = 20.sp,
                 color = Color.White,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(bottom = 24.dp)
             )
+
+            Button(
+                onClick = { Toast.makeText(context, "No existen resultados de la Liga T-T", Toast.LENGTH_LONG).show() },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(red = 13, green = 113, blue = 50), // Your custom background color
+                    contentColor = Color.White
+                )
+            ) {
+                Text("Ver resultados de la Liga")
+            }
         }
     }
 }
@@ -103,11 +122,11 @@ fun MyHeader(modifier: Modifier = Modifier) {
                 text = "DragonStats",
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center,
-                color = Color.White // Optional: Set text color
+                color = Color.White
             )
         },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Color(red = 13, green = 113, blue = 50) // Set your desired background color
+            containerColor = Color(red = 13, green = 113, blue = 50)
         ),
         modifier = modifier
     )
@@ -126,5 +145,13 @@ fun HeaderPreview() {
 fun SplashScreenPreview() {
     MyApplicationTheme {
         SplashScreen()
+    }
+}
+
+@Preview(showBackground = true, name = "Main Content Screen Preview")
+@Composable
+fun MainContentScreenPreview() {
+    MyApplicationTheme {
+        MainContentScreen()
     }
 }
